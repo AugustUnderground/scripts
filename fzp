@@ -1,0 +1,59 @@
+#!/bin/sh
+
+BACKEND="fzf"
+STORE_PATH="$HOME/.password-store"
+GPG_EXT="gpg"
+COPY="-c"
+
+usage() 
+{ 
+    printf "Usage:\t$0 [-b <backend>] [-p <password-store>] [-o] [-h]\n\n"
+    printf "\t-b:\t Can be anything a newline separated list can be piped into.\n"
+    printf "\t\t Default is fzf, another option would be fzy for example.\n"
+    printf "\t-p:\t Should be the path where your pass store is.\n"
+    printf "\t\t Default is $HOME/.password-store.\n"
+    printf "\t-o:\t If given, the password will be printed to stdout.\n"
+    printf "\t\t Otherwise it will be copied to your clipboard.\n"
+    printf "\n"
+    printf "\tExample: $0 -b fzy -p $HOME/.password-store\n\n"
+}
+
+while getopts ":b:p:oh" ARG; do
+    case "${ARG}" in
+        b)
+            BACKEND=${OPTARG}
+            [ command -v $BACKEND ] || usage
+            ;;
+        p)
+            STORE_PATH=${OPTARG}
+            [ -d $STORE_PATH ] || usage
+            ;;
+        o)
+            COPY=""
+            ;;
+        h) 
+            usage && exit 0
+            ;;
+        *)
+            usage && exit 1
+            ;;
+    esac
+done
+
+shift $((OPTIND-1))
+
+[ -z "${BACKEND}" ] || [ -z "${STORE_PATH}" ] && usage && exit 1
+
+PASSWORD_STORE="$(ls $STORE_PATH/*/*.$GPG_EXT)"
+
+TRIMMED_STORE=""
+for STORE in $PASSWORD_STORE; do
+    STORE=${STORE#$STORE_PATH/}
+    STORE=${STORE%.$GPG_EXT}
+    TRIMMED_STORE="$TRIMMED_STORE$STORE\n"
+done
+
+KEY="$(echo $TRIMMED_STORE | $BACKEND)"
+pass $COPY $KEY
+
+exit 0

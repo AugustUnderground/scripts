@@ -1,0 +1,17 @@
+#!/bin/sh
+
+
+LOCK="/tmp/lockscreen-"
+OUTPUTS="$(swaymsg -t get_outputs | jq -r '.[] | select(.active == true) | .name')"
+
+ARGS=""
+for OUT in $OUTPUTS; do
+    IMG="$LOCK$OUT.png"
+    grim -o $OUT "$IMG"
+    convert "$IMG" -blur 0x5 "$IMG"
+    ARGS="$ARGS --image=$OUT:$IMG"
+done
+
+swaylock $ARGS
+
+#grim /tmp/lockscreen.png && convert /tmp/lockscreen.png -blur 0x5 /tmp/lockscreen.png && swaylock -i /tmp/lockscreen.png -s stretch

@@ -1,0 +1,3 @@
+#!/bin/sh
+
+sh -c "dmenu_run $DMENU_THEME -p 'Launch:'"

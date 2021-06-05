@@ -1,0 +1,10 @@
+#!/bin/sh
+
+TABBED=$(tabbed -d)
+
+[ -z  ]
+for url in $(cat ~/.surf/session.txt) ; 
+do
+    echo $line
+done
+surf -e $TABBED $@

@@ -1,0 +1,15 @@
+#!/bin/sh
+
+if [ -n "$(command -v alacritty)" ]; then
+    alacritty
+elif [ -n "$(command -v st)" ]; then
+    st
+elif [ -n "$(command -v sakura)" ]; then
+    sakura
+elif [ -n "$(command -v wezterm)" ]; then
+    wezterm
+elif [ -n "$(command -v kitty)" ]; then
+    kitty
+else
+    xterm
+fi

@@ -1,0 +1,23 @@
+#!/bin/sh
+
+if command -v i3lock > /dev/null &>2 ; then
+    BLUR=0.5
+    i3lock --blur=$BLUR \
+           --clock --time-color=c5c8c6ff --time-str="%H:%M:%S" \
+                   --date-color=c5c8c6ff --date-str="%A, %B %d %Y" \
+           --insidever-color=282a2e00 \
+           --insidewrong-color=282a2e00 \
+           --inside-color=282a2e00 \
+           --ringver-color=c7ccd1ff \
+           --ringwrong-color=cc6666ff \
+           --ring-color=282a2eff \
+           --line-uses-inside \
+           --keyhl-color=c5c8c6ff \
+           --bshl-color=c7ccd1ff \
+           --verif-color=c7ccd1ff \
+           --wrong-color=c7ccd1ff
+elif command -v sflock  > /dev/null &>2 ; then
+    sflock -h -f -c "" -b ""
+else
+    slock
+fi
