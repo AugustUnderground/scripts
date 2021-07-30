@@ -1,7 +1,11 @@
 #!/bin/sh
 
 if [ -n "$(command -v alacritty)" ]; then
-    alacritty
+    if [ $(uname) = "FreeBSD" ]; then
+        TERM=alacritty alacritty
+    else
+        alacritty
+    fi
 elif [ -n "$(command -v st)" ]; then
     st
 elif [ -n "$(command -v sakura)" ]; then
