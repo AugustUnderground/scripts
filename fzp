@@ -53,7 +53,7 @@ for STORE in $PASSWORD_STORE; do
     TRIMMED_STORE="$TRIMMED_STORE$STORE\n"
 done
 
-KEY="$(echo $TRIMMED_STORE | $BACKEND)"
+KEY="$(printf $TRIMMED_STORE | $BACKEND)"
 pass $COPY $KEY
 
 exit 0
