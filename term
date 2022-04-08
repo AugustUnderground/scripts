@@ -1,6 +1,9 @@
 #!/bin/sh
 
-if [ -n "$(command -v alacritty)" ]; then
+
+if [ -n "$(command -v mlterm)" ]; then
+    mlterm
+elif [ -n "$(command -v alacritty)" ]; then
     if [ $(uname) = "FreeBSD" ]; then
         TERM=alacritty alacritty
     else
@@ -14,6 +17,8 @@ elif [ -n "$(command -v wezterm)" ]; then
     wezterm
 elif [ -n "$(command -v kitty)" ]; then
     kitty
+elif [ -n "$(command -v kitty)" ]; then
+    roxterm
 else
     xterm
 fi
