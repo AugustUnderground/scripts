@@ -1,3 +1,9 @@
 #!/bin/sh
 
-xclock -mode cat -bg white -fg black >/dev/null 2>&1 &
+if [ "$(uname)" = "Linux" ]; then
+    xclock -mode cat -bg white -fg black >/dev/null 2>&1 &
+elif [ "$(uname)" = "OpenBSD" ]; then
+    $HOME/.local/bin/catclock
+elif [ "$(uname)" = "FreeBSD" ]; then
+    $HOME/.local/bin/catclock
+fi
