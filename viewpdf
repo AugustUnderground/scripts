@@ -1,0 +1,5 @@
+#!/bin/sh
+
+for PDF in $@; do :; done
+
+mupdf $@ & while inotifywait -e close_write $PDF; do pkill -HUP mupdf; done
