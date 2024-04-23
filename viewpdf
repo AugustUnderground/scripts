@@ -2,4 +2,20 @@
 
 for PDF in $@; do :; done
 
-mupdf $@ & while inotifywait -e close_write $PDF; do pkill -HUP mupdf; done
+mupdf $@ &
+MU_PID="$!"
+
+IGNORE=1
+
+while true; do
+    EVENT=$(inotifywait -q -e close_write -e close_nowrite $PDF)
+    TYPE=$(echo $EVENT | awk '{print $2}')
+    case "$TYPE" in
+        *"CLOSE_WRITE"*)
+            kill -HUP $MU_PID
+            ;;
+        *"CLOSE_NOWRITE"*)
+            [ $IGNORE -eq 1 ] && IGNORE=0 || exit 0
+            ;;
+    esac
+done
