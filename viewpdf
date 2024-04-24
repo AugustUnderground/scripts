@@ -1,8 +1,8 @@
 #!/bin/sh
 
-for PDF in $@; do :; done
+PDF=$(sh -c "find / -type f -path "*.pdf" | dmenu $DMENU_THEME -p 'Select PDF:'")
 
-mupdf $@ &
+mupdf -I $PDF &
 MU_PID="$!"
 
 IGNORE=1
